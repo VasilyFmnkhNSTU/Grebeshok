@@ -12,7 +12,7 @@ function drawGame() {
 }
 
 
-// Generate three random letters
+// Генерация случайных чисел
 selectedLetters = [];
 for (let i = 0; i < 3; i++) {
   const randomIndex = Math.floor(Math.random() * letters.length);
@@ -23,7 +23,7 @@ for (let i = 0; i < 3; i++) {
 document.getElementById('letters').innerText = selectedLetters.join(' ');
 
 
-// Check if a word contains the selected letters
+// Проверка, содержит ли слово выбранные буквы
 function checkWord(word) {
   for (let i = 0; i < selectedLetters.length; i++) {
     if (word.indexOf(selectedLetters[i]) === -1) {
@@ -33,34 +33,30 @@ function checkWord(word) {
   return true;
 }
 
-// Process the user input
+// Пользовательский ввод
 function processInput() {
-  // Show the loading message
+  // Сообщение о загрузке
   document.getElementById('loading-message').style.display = 'block';
 
   const word = document.getElementById('input').value.toUpperCase();
   if (word.length < 3) {
-    // Hide the loading message
-    document.getElementById('loading-message').style.display = 'none';
-
+    document.getElementById('loading-message').style.display = 'none'; 
     document.getElementById('message').innerText = 'Мало букв';
   } else if (!checkWord(word)) {
-    // Hide the loading message
     document.getElementById('loading-message').style.display = 'none';
-
     document.getElementById('message').innerText = 'В этом слове не все необходимые буквы';
   } else {
-    //Load the dictionary file
+    //Загрузка словаря
     fetch('https://raw.githubusercontent.com/VasilyFmnkhNSTU/slovar/main/russian_nouns.txt')
   .then(response => response.text())
   .then(data => {
-    // Convert the data to uppercase
+    // Конвертаиця
     data = data.toUpperCase();
     
-    // Split the dictionary into an array of words
+    // Разбиение словаяря на слова
     const dictionary = data.split('\n').map(word => word.trim());
     console.log(dictionary);
-    // Check if the word exists in the dictionary
+    // Проверка, есть ли введенное слово в словаре
     if (dictionary.includes(word) && !guessedWords.includes(word)) {
       score++;
       guessedWords.push(word);
@@ -76,8 +72,6 @@ function processInput() {
   })
   }
 }
-// Start the game
-
 document.getElementById('submit').addEventListener('click', processInput);
 
 
